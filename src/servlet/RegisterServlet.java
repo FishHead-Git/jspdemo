@@ -17,16 +17,16 @@ import javax.servlet.http.HttpSession;
 import sql.DBUtill;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class RegisterServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/RegisterServlet")
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public RegisterServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,15 +36,14 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		System.out.println("doget");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-//		System.out.println("hello servlet");
-		
-		// 获取用户名和密码
+		//获取注册的基本信息
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-//		System.out.println(username+"->"+password);
+		String studentid = request.getParameter("studentid");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
 		StringBuffer msg = new StringBuffer();
 		PrintWriter out = response.getWriter();
 		
@@ -59,45 +58,56 @@ public class LoginServlet extends HttpServlet {
 			out.print(msg.toString());
 			return;
 		}
-		// new DBUtill
-		DBUtill db = new DBUtill();
+		if(studentid == null || studentid.trim().equals("")) {
+			msg.append("请输入学号（java）：");
+			out.print(msg.toString());
+			return;
+		}
+		if(phone == null || phone.trim().equals("")) {
+			msg.append("请输入手机号（java）：");
+			out.print(msg.toString());
+			return;
+		}
+		if(email == null || email.trim().equals("")) {
+			msg.append("请输入邮箱（java）：");
+			out.print(msg.toString());
+			return;
+		}
 		
-		// 查询用户名的密码
-		String Sql = "select password from Logintable";
-		Map<String, String> values = new HashMap<String, String>();
+		//new DBUtill的对象
+		DBUtill db = new DBUtill();
+		String Sql = "select count(username) from Logintable";
+		Map<String, String> values = new HashMap<>();
 		values.put("username", username);
 		ResultSet rs = db.selectexecute(Sql, values);
-		
-		// 取出密码
-		String pwd = "";
+		// isExist为数据库条件成立的条数
+		int isExist = 0;
 		try {
 			while(rs.next()) {
-				pwd = rs.getString("password");
+				isExist = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		// 判断数据库的密码和输入密码是否的一致
-		if(pwd.equals(password)) {
-			// 目标网页
-			String url = "mainPage.jsp";
-			msg.append("Redirect:"+url);
-			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
-			out.print(msg.toString());
-		}else {
-			msg.append("登录失败");
+		//用户名是否存在
+		if(isExist != 0) {
+			msg.append("用户名已存在：");
 			out.print(msg.toString());
 			return;
 		}
-		// 返回结果
-		out.close();
+		//插入数据
+		Sql = "insert into Logintable values (?, ?)";
+		db.insertexecute(Sql, new String[] {username, password});
+		Sql = "insert into Studenttable values (?, ?, ?, ?)";
+		db.insertexecute(Sql, new String[] {username, studentid, phone, email});
+		System.out.println("insert success");
 		
-		
-		// 重定向 回到indexPage.jsp
-//		response.sendRedirect("indexPage.jsp");
+		// 返回登录页面
+		String url = "indexPage.jsp";
+		msg.append("Redirect:"+url);
+		out.print(msg.toString());
 	}
 
 	/**
@@ -105,7 +115,6 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("dopost");
 		doGet(request, response);
 	}
 

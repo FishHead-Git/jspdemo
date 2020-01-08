@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%-- http://localhost:8080/JspStudentDemo/index.jsp --%>
+<%-- http://localhost:8080/JspStudentDemo/index.jsp
+https://github.com/FishHead-Git/jspdemo --%>
 <!DOCTYPE html>
 <html>
 	<head>

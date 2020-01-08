@@ -128,13 +128,15 @@
 				<table class="tablediv" width="100%" height="80%" border="0" frame="hsides" cellpadding="50%">
 					<%
 						DBUtill db = new DBUtill();
-						String sql = "select * from logintable";
+						String sql = "select * from studenttable";
 						Map values = new HashMap();
-						values.put("username", user);
+						values.put("studentname", user);
 						ResultSet rs = db.selectexecute(sql, values);
 						while(rs.next()){
-							out.print("<tr><td>"+rs.getString("username")+"</td></tr>");
-							out.print("<tr><td>"+rs.getString("password")+"</td></tr>");
+							out.print("<tr><td>"+rs.getString("studentname")+"</td></tr>");
+							out.print("<tr><td>"+rs.getString("studentid")+"</td></tr>");
+							out.print("<tr><td>"+rs.getString("phone")+"</td></tr>");
+							out.print("<tr><td>"+rs.getString("email")+"</td></tr>");
 						}
 					%>
 				</table>

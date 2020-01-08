@@ -162,7 +162,7 @@
 		}
 		
 		function indexAjax(){
-			window.location.href="index.jsp"
+			window.location.href="indexPage.jsp"
 		}
 		
 		function trimtostring(str){
@@ -176,7 +176,7 @@
 	</script>
 	<body>
 		<div class="RegisterBox">
-			<from methor="post" action="RegisterCheck" name="Registerfrom" >
+			<from methor="post" action="RegisterServlet" name="Registerfrom" >
 				<h2>Register</h2>
 				<input type="text" maxlength="30" id="username" name="username" placeholder="username">
 				<input type="text" maxlength="10" id="studentid" name="studentid" placeholder="studentid">

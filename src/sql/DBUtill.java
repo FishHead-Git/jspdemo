@@ -29,10 +29,10 @@ public class DBUtill implements SqlDao{
 			// 链接数据库
 			conn = DriverManager.getConnection(url, user, pwd);	
 			// 如果没有创建基本的表，先运行
-//			this.createLoginTable();
+			this.createLoginTable();
 //			this.createCourseTable();
 //			this.createScoreTable();
-//			this.createStudentTable();
+			this.createStudentTable();
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
