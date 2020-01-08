@@ -1,4 +1,10 @@
 # jspdemo
+V1.2
+ java Resources
+- servlet
+ - RegisterServlet
+
+
 V1.0
 
 webcontent
