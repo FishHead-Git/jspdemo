@@ -2,7 +2,7 @@
 V1.2
  java Resources
 - servlet
- - RegisterServlet
+  - RegisterServlet
 
 
 V1.0
