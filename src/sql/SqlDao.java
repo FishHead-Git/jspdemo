@@ -21,4 +21,11 @@ public interface SqlDao {
 	 * @return
 	 */
 	public int insertexecute(String Sql, String[] arg);
+	
+	/**
+	 * update
+	 * @param Sql
+	 * @return
+	 */
+	public int updateexecute(String Sql);
 }

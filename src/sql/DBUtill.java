@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class DBUtill implements SqlDao{
 	final private String url="jdbc:mysql://localhost:3306/jspdemo?"+
-				"serverTimezone=UTC&useSSL=false";
+				"serverTimezone=UTC&useSSL=false&characterEncoding=utf-8";
 	final private String user = "root";
 	final private String pwd = "123456";
 	final private String driver = "com.mysql.cj.jdbc.Driver";
@@ -30,8 +30,8 @@ public class DBUtill implements SqlDao{
 			conn = DriverManager.getConnection(url, user, pwd);	
 			// 如果没有创建基本的表，先运行
 			this.createLoginTable();
-//			this.createCourseTable();
-//			this.createScoreTable();
+			this.createCourseTable();
+			this.createScoreTable();
 			this.createStudentTable();
 			
 		} catch (ClassNotFoundException e) {
@@ -88,6 +88,22 @@ public class DBUtill implements SqlDao{
 			for(int i=0;i<arg.length;i++)
 				stmt.setString(i+1, arg[i]);
 			// 修改和插入使用executeUpdate()
+			return stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	@Override
+	public int updateexecute(String Sql) {
+		// TODO Auto-generated method stub
+		PreparedStatement stmt;
+		try {
+			// 把sql语句预处理
+			stmt = conn.prepareStatement(Sql);
+			// 返回sql语句处理结果
 			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
